@@ -1,8 +1,7 @@
 {
-    "name": "webimpress/zend-pimple-config",
+    "name": "zendframework/zend-pimple-config",
     "description": "PSR-11 Pimple container configurator for ZF applications",
     "type": "library",
-    "homepage": "https://github.com/webimpress/zend-pimple-config",
     "license": "BSD-3-Clause",
     "keywords": [
         "zf",
@@ -12,8 +11,10 @@
         "psr-11"
     ],
     "support": {
-        "issues": "https://github.com/webimpress/zend-pimple-config/issues",
-        "source": "https://github.com/webimpress/zend-pimple-config"
+        "issues": "https://github.com/zendframework/zend-pimple-config/issues",
+        "source": "https://github.com/zendframework/zend-pimple-config",
+        "slack": "https://zendframework-slack.herokuapp.com",
+        "forum": "https://discourse.zendframework.com/c/questions"
     },
     "config": {
         "sort-packages": true

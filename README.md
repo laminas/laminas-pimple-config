@@ -1,7 +1,7 @@
 # zend-pimple-config
 
-[![Build Status](https://secure.travis-ci.org/webimpress/zend-pimple-config.svg?branch=master)](https://secure.travis-ci.org/webimpress/zend-pimple-config)
-[![Coverage Status](https://coveralls.io/repos/github/webimpress/zend-pimple-config/badge.svg?branch=master)](https://coveralls.io/github/webimpress/zend-pimple-config?branch=master)
+[![Build Status](https://secure.travis-ci.org/zendframework/zend-pimple-config.svg?branch=master)](https://secure.travis-ci.org/zendframework/zend-pimple-config)
+[![Coverage Status](https://coveralls.io/repos/github/zendframework/zend-pimple-config/badge.svg?branch=master)](https://coveralls.io/github/zendframework/zend-pimple-config?branch=master)
 
 This library provides utilities to configure
 [PSR-11](http://www.php-fig.org/psr/psr-11/)
@@ -13,7 +13,7 @@ using ZendFramework ServiceManager configuration.
 Run the following to install this library:
 
 ```bash
-$ composer require webimpress/zend-pimple-config
+$ composer require zendframework/zend-pimple-config
 ```
 
 ## Configuration
@@ -69,8 +69,8 @@ The `dependencies` sub associative array can contain the following keys:
 ### `extensions`
 
 > The `extensions` configuration is only available with Pimple container.
-> If you are using [Aura.Di container](https://github.com/webimpress/zend-auradi-config)
-> or [Zend\ServiceManager](https://github.com/webimpress/zend-servicemanager)
+> If you are using [Aura.Di container](https://github.com/zendframework/zend-auradi-config)
+> or [Zend\ServiceManager](https://github.com/zendframework/zend-servicemanager)
 > you can use [`delegators`](https://docs.zendframework.com/zend-servicemanager/delegators/).
 > It is recommended to use `delegators` if you'd like to keep the highest
 > compatibility and you would consider changing container library in the
@@ -164,7 +164,7 @@ $finalService = $extension2Factory(
 
 First you have to install the library:
 ```bash
-$ composer require webimpress/zend-pimple-config
+$ composer require zendframework/zend-pimple-config
 ```
 
 Then replace contents of `config/container.php` with the following:

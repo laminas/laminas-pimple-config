@@ -9,7 +9,7 @@ read/subscribe to the following resources:
  - [Code of Conduct](CODE_OF_CONDUCT.md)
 
 If you are working on new features or refactoring
-[create a proposal](https://github.com/webimpress/zend-pimple-config/issues/new).
+[create a proposal](https://github.com/zendframework/zend-pimple-config/issues/new).
 
 ## RUNNING TESTS
 
@@ -18,7 +18,7 @@ To run tests:
 - Clone the repository:
 
   ```console
-  $ git clone git://github.com/webimpress/zend-pimple-config.git
+  $ git clone git://github.com/zendframework/zend-pimple-config.git
   $ cd zend-pimple-config
   ```
 
@@ -70,11 +70,11 @@ pull your work into the master repository. We recommend using
 [GitHub](https://github.com), as that is where the component is already hosted.
 
 1. Setup a [GitHub account](https://github.com/), if you haven't yet
-2. Fork the repository (https://github.com/webimpress/zend-pimple-config)
+2. Fork the repository (https://github.com/zendframework/zend-pimple-config)
 3. Clone the canonical repository locally and enter it.
 
    ```console
-   $ git clone git://github.com/webimpress/zend-pimple-config.git
+   $ git clone git://github.com/zendframework/zend-pimple-config.git
    $ cd zend-pimple-config
    ```
 
@@ -154,7 +154,7 @@ To send a pull request, you have two options.
 If using GitHub, you can do the pull request from there. Navigate to
 your repository, select the branch you just created, and then select the
 "Pull Request" button in the upper right. Select the user/organization
-"webimpress" (or whatever the upstream organization is) as the recipient.
+"zendframework" (or whatever the upstream organization is) as the recipient.
 
 #### What branch to issue the pull request against?
 
