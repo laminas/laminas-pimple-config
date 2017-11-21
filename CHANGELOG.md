@@ -1,6 +1,6 @@
 # Changelog
 
-## 0.1.1 - TBD
+## 0.1.1 - 2017-11-21
 
 ### Added
 
@@ -8,7 +8,7 @@
 
 ### Changed
 
-- Nothing.
+- The package name has changed to `zendframework/zend-pimple-config`.
 
 ### Deprecated
 
