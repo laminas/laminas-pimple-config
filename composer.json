@@ -1,10 +1,9 @@
 {
     "name": "webimpress/zend-pimple-config",
     "description": "PSR-11 Pimple container configurator for ZF applications",
-    "type": "library",
-    "homepage": "https://github.com/webimpress/zend-pimple-config",
     "license": "BSD-3-Clause",
     "keywords": [
+        "expressive",
         "zf",
         "zendframework",
         "pimple",
@@ -13,10 +12,10 @@
     ],
     "support": {
         "issues": "https://github.com/webimpress/zend-pimple-config/issues",
-        "source": "https://github.com/webimpress/zend-pimple-config"
-    },
-    "config": {
-        "sort-packages": true
+        "source": "https://github.com/webimpress/zend-pimple-config",
+        "rss": "https://github.com/webimpress/zend-pimple-config/releases.atom",
+        "slack": "https://zendframework-slack.herokuapp.com",
+        "forum": "https://discourse.zendframework.com/c/questions/expressive"
     },
     "require": {
         "php": "^5.6 || ^7.0",
@@ -36,6 +35,14 @@
             "ZendTest\\Pimple\\Config\\": "test"
         }
     },
+    "config": {
+        "sort-packages": true
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.0-dev"
+        }
+    },
     "scripts": {
         "check": [
             "@cs-check",
@@ -46,5 +53,6 @@
         "test": "phpunit --colors=always",
         "test-coverage": "phpunit --colors=always --coverage-clover clover.xml",
         "upload-coverage": "coveralls -v"
-    }
+    },
+    "homepage": "https://github.com/webimpress/zend-pimple-config"
 }
