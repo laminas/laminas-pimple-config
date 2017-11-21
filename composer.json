@@ -1,6 +1,6 @@
 {
-    "name": "webimpress/zend-pimple-config",
-    "description": "PSR-11 Pimple container configurator for ZF applications",
+    "name": "zendframework/zend-pimple-config",
+    "description": "PSR-11 Pimple container configurator for Expressive applications",
     "license": "BSD-3-Clause",
     "keywords": [
         "expressive",
