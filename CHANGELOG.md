@@ -1,6 +1,10 @@
 # Changelog
 
-## 0.1.1 - 2017-11-21
+All notable changes to this project will be documented in this file, in reverse chronological order by release.
+
+Versions prior to 0.2.0 were released as the package "webimpress/zend-pimple-config".
+
+## 0.2.0 - 2017-11-21
 
 ### Added
 
