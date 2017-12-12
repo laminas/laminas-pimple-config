@@ -13,5 +13,5 @@ use Pimple\Container;
 
 interface ConfigInterface
 {
-    public function configureContainer(Container $container);
+    public function configureContainer(Container $container) : void;
 }

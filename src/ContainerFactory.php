@@ -14,7 +14,7 @@ use Pimple\Psr11\Container as PsrContainer;
 
 class ContainerFactory
 {
-    public function __invoke(ConfigInterface $config)
+    public function __invoke(ConfigInterface $config) : PsrContainer
     {
         $container = new Container();
         $config->configureContainer($container);
