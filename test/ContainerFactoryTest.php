@@ -45,8 +45,7 @@ class ContainerFactoryTest extends TestCase
         $config = $this->prophesize(ConfigInterface::class);
         $config
             ->configureContainer(Argument::type(Container::class))
-            ->shouldBeCalledTimes(1)
-            ->willReturn(null);
+            ->shouldBeCalledTimes(1);
 
         $factory($config->reveal());
     }
