@@ -5,6 +5,8 @@
  * @license   https://github.com/zendframework/zend-pimple-config/blob/master/LICENSE.md New BSD License
  */
 
+declare(strict_types=1);
+
 namespace ZendTest\Pimple\Config;
 
 use PHPUnit\Framework\TestCase;
