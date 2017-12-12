@@ -23,11 +23,6 @@ class ConfigTest extends TestCase
         $this->container = new Container();
     }
 
-    public function testXYZ()
-    {
-        self::assertTrue(true);
-    }
-
     public function testInjectConfiguration()
     {
         $config = [
