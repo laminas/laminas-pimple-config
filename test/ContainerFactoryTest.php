@@ -5,6 +5,8 @@
  * @license   https://github.com/zendframework/zend-pimple-config/blob/master/LICENSE.md New BSD License
  */
 
+declare(strict_types=1);
+
 namespace ZendTest\Pimple\Config;
 
 use PHPUnit\Framework\TestCase;
@@ -43,8 +45,7 @@ class ContainerFactoryTest extends TestCase
         $config = $this->prophesize(ConfigInterface::class);
         $config
             ->configureContainer(Argument::type(Container::class))
-            ->shouldBeCalledTimes(1)
-            ->willReturn(null);
+            ->shouldBeCalledTimes(1);
 
         $factory($config->reveal());
     }

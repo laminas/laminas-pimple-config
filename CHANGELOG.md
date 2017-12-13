@@ -20,7 +20,8 @@ Versions prior to 0.2.0 were released as the package "webimpress/zend-pimple-con
 
 ### Removed
 
-- Nothing.
+- [#3](https://github.com/zendframework/zend-pimple-config/pull/3)
+  removes support for PHP versions prior to PHP 7.1.
 
 ### Fixed
 

@@ -5,6 +5,8 @@
  * @license   https://github.com/zendframework/zend-pimple-config/blob/master/LICENSE.md New BSD License
  */
 
+declare(strict_types=1);
+
 namespace Zend\Pimple\Config;
 
 use Pimple\Container;
@@ -19,7 +21,7 @@ class Config implements ConfigInterface
         $this->config = $config;
     }
 
-    public function configureContainer(Container $container)
+    public function configureContainer(Container $container) : void
     {
         $container['config'] = $this->config;
 
@@ -38,7 +40,7 @@ class Config implements ConfigInterface
         $this->injectDelegators($container, $dependencies);
     }
 
-    private function injectServices(Container $container, array $dependencies)
+    private function injectServices(Container $container, array $dependencies) : void
     {
         if (empty($dependencies['services'])
             || ! is_array($dependencies['services'])
@@ -53,7 +55,7 @@ class Config implements ConfigInterface
         }
     }
 
-    private function injectFactories(Container $container, array $dependencies)
+    private function injectFactories(Container $container, array $dependencies) : void
     {
         if (empty($dependencies['factories'])
             || ! is_array($dependencies['factories'])
@@ -74,7 +76,7 @@ class Config implements ConfigInterface
         }
     }
 
-    private function injectInvokables(Container $container, array $dependencies)
+    private function injectInvokables(Container $container, array $dependencies) : void
     {
         if (empty($dependencies['invokables'])
             || ! is_array($dependencies['invokables'])
@@ -89,7 +91,7 @@ class Config implements ConfigInterface
         }
     }
 
-    private function injectAliases(Container $container, array $dependencies)
+    private function injectAliases(Container $container, array $dependencies) : void
     {
         if (empty($dependencies['aliases'])
             || ! is_array($dependencies['aliases'])
@@ -104,7 +106,7 @@ class Config implements ConfigInterface
         }
     }
 
-    private function injectExtensions(Container $container, array $dependencies)
+    private function injectExtensions(Container $container, array $dependencies) : void
     {
         if (empty($dependencies['extensions'])
             || ! is_array($dependencies['extensions'])
@@ -122,7 +124,7 @@ class Config implements ConfigInterface
         }
     }
 
-    private function injectDelegators(Container $container, array $dependencies)
+    private function injectDelegators(Container $container, array $dependencies) : void
     {
         if (empty($dependencies['delegators'])
             || ! is_array($dependencies['delegators'])
