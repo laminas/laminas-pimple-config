@@ -20,9 +20,7 @@ Versions prior to 0.2.0 were released as the package "webimpress/zend-pimple-con
 
 ### Removed
 
-- [#2](https://github.com/zendframework/zend-pimple-config/pull/2)
-  removes "extensions" support as these have the same functionality
-  as delegators.
+- Nothing.
 
 ### Fixed
 

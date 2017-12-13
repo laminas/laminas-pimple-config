@@ -34,6 +34,7 @@ class Config implements ConfigInterface
         $this->injectFactories($container, $dependencies);
         $this->injectInvokables($container, $dependencies);
         $this->injectAliases($container, $dependencies);
+        $this->injectExtensions($container, $dependencies);
         $this->injectDelegators($container, $dependencies);
     }
 
@@ -100,6 +101,24 @@ class Config implements ConfigInterface
             $container[$alias] = function (Container $c) use ($target) {
                 return $c->offsetGet($target);
             };
+        }
+    }
+
+    private function injectExtensions(Container $container, array $dependencies)
+    {
+        if (empty($dependencies['extensions'])
+            || ! is_array($dependencies['extensions'])
+        ) {
+            return;
+        }
+
+        foreach ($dependencies['extensions'] as $name => $extensions) {
+            foreach ($extensions as $extension) {
+                $container->extend($name, function ($service, Container $c) use ($extension, $name) {
+                    $factory = new $extension();
+                    return $factory($service, new PsrContainer($c), $name); // passing extra parameter $name
+                });
+            }
         }
     }
 
