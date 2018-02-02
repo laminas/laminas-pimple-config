@@ -33,6 +33,9 @@ class Config implements ConfigInterface
         ) {
             $dependencies = $this->config['dependencies'];
         }
+        $dependencies['shared_by_default'] = isset($dependencies['shared_by_default'])
+            ? (bool) $dependencies['shared_by_default']
+            : true;
 
         $this->injectServices($container, $dependencies);
         $this->injectFactories($container, $dependencies);
@@ -66,7 +69,7 @@ class Config implements ConfigInterface
         }
 
         foreach ($dependencies['factories'] as $name => $object) {
-            $container[$name] = function (Container $c) use ($object, $name) {
+            $this->setService($container, $dependencies, $name, function (Container $c) use ($object, $name) {
                 if ($c->offsetExists($object)) {
                     $factory = $c->offsetGet($object);
                 } else {
@@ -74,7 +77,7 @@ class Config implements ConfigInterface
                     $c[$object] = $c->protect($factory);
                 }
                 return $factory(new PsrContainer($c), $name);
-            };
+            });
         }
     }
 
@@ -88,14 +91,15 @@ class Config implements ConfigInterface
 
         foreach ($dependencies['invokables'] as $name => $object) {
             if ($name !== $object) {
-                $container[$name] = function (Container $c) use ($object) {
-                    return $c->offsetGet($object);
-                };
+                $this->setService($container, $dependencies, $name, function (Container $c) use ($object) {
+                    return new $object();
+                });
             }
 
-            $container[$object] = function (Container $c) use ($object) {
+            //$container[$object] = function (Container $c) use ($object) {
+            $this->setService($container, $dependencies, $object, function (Container $c) use ($object) {
                 return new $object();
-            };
+            });
         }
     }
 
@@ -150,6 +154,17 @@ class Config implements ConfigInterface
                     return $factory(new PsrContainer($c), $name, $callback);
                 });
             }
+        }
+    }
+
+    private function setService(Container $container, array $dependencies, string $name, callable $callback)
+    {
+        if (($dependencies['shared_by_default'] === true && ! isset($dependencies['shared'][$name]))
+            || (isset($dependencies['shared'][$name]) && $dependencies['shared'][$name] === true)
+        ) {
+            $container[$name] = $callback;
+        } else {
+            $container[$name] = $container->factory($callback);
         }
     }
 }
