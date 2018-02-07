@@ -335,7 +335,7 @@ class ConfigTest extends TestCase
         );
     }
 
-    public function testInvokablesWithoutAlias()
+    public function testInvokableWithAlias()
     {
         $dependencies = [
             'invokables' => [
@@ -348,5 +348,25 @@ class ConfigTest extends TestCase
         self::assertTrue($this->container->offsetExists(TestAsset\Service::class));
         $service = $this->container->offsetGet(TestAsset\Service::class);
         self::assertInstanceOf(TestAsset\Service::class, $service);
+        self::assertTrue($this->container->offsetExists('0'));
+    }
+
+    public function testInvokableWithoutAlias()
+    {
+        $dependencies = [
+            'invokables' => [
+                'alias' => TestAsset\Service::class,
+            ],
+        ];
+
+        (new Config(['dependencies' => $dependencies]))->configureContainer($this->container);
+
+        self::assertTrue($this->container->offsetExists('alias'));
+        $service = $this->container->offsetGet('alias');
+        self::assertInstanceOf(TestAsset\Service::class, $service);
+        self::assertTrue($this->container->offsetExists(TestAsset\Service::class));
+        $originService = $this->container->offsetGet(TestAsset\Service::class);
+        self::assertInstanceOf(TestAsset\Service::class, $originService);
+        self::assertSame($service, $originService);
     }
 }
