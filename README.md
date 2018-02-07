@@ -49,7 +49,7 @@ The `dependencies` sub associative array can contain the following keys:
 - `services`: an associative array that maps a key to a specific service instance.
 - `invokables`: an associative array that map a key to a constructor-less
   service; i.e., for services that do not require arguments to the constructor.
-  The key and service name may be the same; if they are not, the name is treated
+  The key and service name may be the same; if they are not, the key is treated
   as an alias.
 - `factories`: an associative array that maps a service name to a factory class
   name, or any callable. Factory classes must be instantiable without arguments,

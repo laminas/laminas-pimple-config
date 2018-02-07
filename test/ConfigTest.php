@@ -334,4 +334,19 @@ class ConfigTest extends TestCase
             $service->injected
         );
     }
+
+    public function testInvokablesWithoutAlias()
+    {
+        $dependencies = [
+            'invokables' => [
+                TestAsset\Service::class,
+            ],
+        ];
+
+        (new Config(['dependencies' => $dependencies]))->configureContainer($this->container);
+
+        self::assertTrue($this->container->offsetExists(TestAsset\Service::class));
+        $service = $this->container->offsetGet(TestAsset\Service::class);
+        self::assertInstanceOf(TestAsset\Service::class, $service);
+    }
 }

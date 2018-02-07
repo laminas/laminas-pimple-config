@@ -83,6 +83,10 @@ class Config implements ConfigInterface
         }
 
         foreach ($dependencies['invokables'] as $name => $object) {
+            if (is_int($name)) {
+                $name = $object;
+            }
+
             $container[$name] = function (Container $c) use ($object) {
                 return new $object();
             };
