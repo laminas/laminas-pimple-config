@@ -4,54 +4,7 @@ All notable changes to this project will be documented in this file, in reverse 
 
 Versions prior to 0.2.0 were released as the package "webimpress/zend-pimple-config".
 
-## 1.0.0 - TBD
-
-### Added
-
-- Nothing.
-
-### Changed
-
-- Nothing.
-
-### Deprecated
-
-- Nothing.
-
-### Removed
-
-- Nothing.
-
-### Fixed
-
-- [#7](https://github.com/zendframework/zend-pimple-config/pull/7) fixes how
-  invokable configuration is processed, ensuring that if the key and value are not
-  the same, an alias is created, aliasing the key to the class name.
-
-## 1.0.0alpha2 - TBD
-
-### Added
-
-- Nothing.
-
-### Changed
-
-- [#8](https://github.com/zendframework/zend-pimple-config/pull/8)
-  adds PHPUnit 7.
-
-### Deprecated
-
-- Nothing.
-
-### Removed
-
-- Nothing.
-
-### Fixed
-
-- Nothing.
-
-## 1.0.0alpha1 - 2018-02-07
+## 1.0.0 - 2018-03-15
 
 ### Added
 
@@ -72,7 +25,9 @@ Versions prior to 0.2.0 were released as the package "webimpress/zend-pimple-con
 
 ### Fixed
 
-- Nothing.
+- [#7](https://github.com/zendframework/zend-pimple-config/pull/7) fixes how
+  invokable configuration is processed, ensuring that if the key and value are not
+  the same, an alias is created, aliasing the key to the class name.
 
 ## 0.2.0 - 2017-11-21
 
