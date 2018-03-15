@@ -12,6 +12,8 @@ namespace Zend\Pimple\Config;
 use Pimple\Container;
 use Pimple\Psr11\Container as PsrContainer;
 
+use function is_array;
+
 class Config implements ConfigInterface
 {
     private $config;
