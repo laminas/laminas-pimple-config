@@ -87,7 +87,13 @@ class Config implements ConfigInterface
         }
 
         foreach ($dependencies['invokables'] as $name => $object) {
-            $container[$name] = function (Container $c) use ($object) {
+            if ($name !== $object) {
+                $container[$name] = function (Container $c) use ($object) {
+                    return $c->offsetGet($object);
+                };
+            }
+
+            $container[$object] = function (Container $c) use ($object) {
                 return new $object();
             };
         }
