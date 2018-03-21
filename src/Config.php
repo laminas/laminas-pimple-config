@@ -1,7 +1,7 @@
 <?php
 /**
  * @see       https://github.com/zendframework/zend-pimple-config for the canonical source repository
- * @copyright Copyright (c) 2017 Zend Technologies USA Inc. (https://www.zend.com)
+ * @copyright Copyright (c) 2017-2018 Zend Technologies USA Inc. (https://www.zend.com)
  * @license   https://github.com/zendframework/zend-pimple-config/blob/master/LICENSE.md New BSD License
  */
 
@@ -10,9 +10,14 @@ declare(strict_types=1);
 namespace Zend\Pimple\Config;
 
 use Pimple\Container;
+use Pimple\Exception\ExpectedInvokableException;
 use Pimple\Psr11\Container as PsrContainer;
+use Psr\Container\NotFoundExceptionInterface;
 
 use function is_array;
+use function is_callable;
+use function is_int;
+use function is_string;
 
 class Config implements ConfigInterface
 {
@@ -70,12 +75,21 @@ class Config implements ConfigInterface
 
         foreach ($dependencies['factories'] as $name => $object) {
             $this->setService($container, $dependencies, $name, function (Container $c) use ($object, $name) {
-                if ($c->offsetExists($object)) {
-                    $factory = $c->offsetGet($object);
-                } else {
+                if (is_string($object) && class_exists($object)) {
                     $factory = new $object();
-                    $c[$object] = $c->protect($factory);
+                } else {
+                    $factory = $object;
                 }
+
+                if (! is_callable($factory)) {
+                    // todo: this is very tricky way, probably we should define here another exception
+                    // if we need to throw instance of NotFoundExceptionInterface
+                    throw new class (sprintf(
+                        'Factory provided to initialize service %s is not invokable',
+                        $name
+                    )) extends ExpectedInvokableException implements NotFoundExceptionInterface {};
+                }
+
                 return $factory(new PsrContainer($c), $name);
             });
         }
@@ -90,13 +104,12 @@ class Config implements ConfigInterface
         }
 
         foreach ($dependencies['invokables'] as $name => $object) {
-            if ($name !== $object) {
+            if (! is_int($name) && $name !== $object) {
                 $this->setService($container, $dependencies, $name, function (Container $c) use ($object) {
                     return new $object();
                 });
             }
 
-            //$container[$object] = function (Container $c) use ($object) {
             $this->setService($container, $dependencies, $object, function (Container $c) use ($object) {
                 return new $object();
             });
@@ -146,6 +159,19 @@ class Config implements ConfigInterface
 
         foreach ($dependencies['delegators'] as $name => $delegators) {
             foreach ($delegators as $delegator) {
+                if (isset($dependencies['services'][$name])) {
+                    continue;
+                }
+
+                if (isset($dependencies['aliases'][$name])) {
+                    continue;
+                }
+
+                // todo: probably we are missing some test case as we shouldn't allow delegators on invokable aliases:
+                // if (isset($dependencies['invokables'][$name]) && $name !== $dependencies['invokables'][$name]) {
+                //     continue;
+                // }
+
                 $container->extend($name, function ($service, Container $c) use ($delegator, $name) {
                     $factory = new $delegator();
                     $callback = function () use ($service) {
