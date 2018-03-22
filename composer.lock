@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "5e6c41030a26d02e19448b20c7d141ae",
+    "content-hash": "135ec4cea3d1798959ff8e8172e172ae",
     "packages": [
         {
             "name": "pimple/pimple",
@@ -1670,11 +1670,11 @@
         },
         {
             "name": "zendframework/zend-container-config-test",
-            "version": "dev-feature/review-tests",
+            "version": "dev-improvements",
             "source": {
                 "type": "git",
                 "url": "https://github.com/weierophinney/zend-container-config-test",
-                "reference": "536e9f3a5d9c5ea86aec17ad172277d0afac6adb"
+                "reference": "aea245490efc2347465a027cfe6e1afaefcf74ee"
             },
             "require": {
                 "php": "^7.1",
@@ -1695,8 +1695,8 @@
             },
             "autoload": {
                 "files": [
-                    "src/TestAsset/factory.php",
-                    "src/TestAsset/factory-with-name.php"
+                    "src/TestAsset/function-factory.php",
+                    "src/TestAsset/function-factory-with-name.php"
                 ],
                 "psr-4": {
                     "Zend\\ContainerConfigTest\\": "src/"
@@ -1744,7 +1744,7 @@
                 "slack": "https://zendframework-slack.herokuapp.com",
                 "forum": "https://discourse.zendframework.com/c/questions/expressive"
             },
-            "time": "2018-03-20T20:47:31+00:00"
+            "time": "2018-03-22T13:33:42+00:00"
         }
     ],
     "aliases": [],

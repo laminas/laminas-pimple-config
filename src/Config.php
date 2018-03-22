@@ -12,8 +12,8 @@ namespace Zend\Pimple\Config;
 use Pimple\Container;
 use Pimple\Exception\ExpectedInvokableException;
 use Pimple\Psr11\Container as PsrContainer;
-use Psr\Container\NotFoundExceptionInterface;
 
+use function class_exists;
 use function is_array;
 use function is_callable;
 use function is_int;
@@ -47,7 +47,6 @@ class Config implements ConfigInterface
         $this->injectInvokables($container, $dependencies);
         $this->injectAliases($container, $dependencies);
         $this->injectExtensions($container, $dependencies);
-        $this->injectDelegators($container, $dependencies);
     }
 
     private function injectServices(Container $container, array $dependencies) : void
@@ -74,20 +73,47 @@ class Config implements ConfigInterface
         }
 
         foreach ($dependencies['factories'] as $name => $object) {
+            if (isset($dependencies['delegators'][$name])) {
+                $this->injectDelegator(
+                    $container,
+                    function () use ($container, $name, $object) {
+                        if (is_callable($object)) {
+                            $factory = $object;
+                        } elseif (is_string($object) && ! class_exists($object)) {
+                            throw new ExpectedInvokableException();
+                        } else {
+                            $factory = new $object();
+                        }
+
+                        if (! is_callable($factory)) {
+                            throw new ExpectedInvokableException();
+                        }
+
+                        return $factory(new PsrContainer($container), $name);
+                    },
+                    $name,
+                    $dependencies['delegators'][$name]
+                );
+                continue;
+            }
+
             $this->setService($container, $dependencies, $name, function (Container $c) use ($object, $name) {
-                if (is_string($object) && class_exists($object)) {
-                    $factory = new $object();
-                } else {
+                if (is_callable($object)) {
                     $factory = $object;
+                } elseif (is_string($object) && ! class_exists($object)) {
+                    throw new ExpectedInvokableException(sprintf(
+                        'Factory provided to initialize service %s does not exist',
+                        $name
+                    ));
+                } else {
+                    $factory = new $object();
                 }
 
                 if (! is_callable($factory)) {
-                    // todo: this is very tricky way, probably we should define here another exception
-                    // if we need to throw instance of NotFoundExceptionInterface
-                    throw new class (sprintf(
+                    throw new ExpectedInvokableException(sprintf(
                         'Factory provided to initialize service %s is not invokable',
                         $name
-                    )) extends ExpectedInvokableException implements NotFoundExceptionInterface {};
+                    ));
                 }
 
                 return $factory(new PsrContainer($c), $name);
@@ -103,16 +129,35 @@ class Config implements ConfigInterface
             return;
         }
 
-        foreach ($dependencies['invokables'] as $name => $object) {
-            if (! is_int($name) && $name !== $object) {
-                $this->setService($container, $dependencies, $name, function (Container $c) use ($object) {
+        foreach ($dependencies['invokables'] as $alias => $object) {
+            if (isset($dependencies['delegators'][$object])) {
+                $this->injectDelegator(
+                    $container,
+                    function () use ($object) {
+                        if (! class_exists($object)) {
+                            throw new ExpectedInvokableException();
+                        }
+
+                        return new $object();
+                    },
+                    $object,
+                    $dependencies['delegators'][$object]
+                );
+            } else {
+                $this->setService($container, $dependencies, $object, function (Container $c) use ($object) {
+                    if (! class_exists($object)) {
+                        throw new ExpectedInvokableException();
+                    }
+
                     return new $object();
                 });
             }
 
-            $this->setService($container, $dependencies, $object, function (Container $c) use ($object) {
-                return new $object();
-            });
+            if (! is_int($alias) && $alias !== $object) {
+                $container[$alias] = function (Container $c) use ($object) {
+                    return $c->offsetGet($object);
+                };
+            }
         }
     }
 
@@ -149,38 +194,28 @@ class Config implements ConfigInterface
         }
     }
 
-    private function injectDelegators(Container $container, array $dependencies) : void
+    private function injectDelegator(Container $container, callable $callback, string $name, array $delegators)
     {
-        if (empty($dependencies['delegators'])
-            || ! is_array($dependencies['delegators'])
-        ) {
-            return;
-        }
-
-        foreach ($dependencies['delegators'] as $name => $delegators) {
-            foreach ($delegators as $delegator) {
-                if (isset($dependencies['services'][$name])) {
-                    continue;
+        $container[$name] = function (Container $c) use ($callback, $name, $delegators) {
+            foreach ($delegators as $delegatorClass) {
+                if (! class_exists($delegatorClass)) {
+                    throw new ExpectedInvokableException();
                 }
 
-                if (isset($dependencies['aliases'][$name])) {
-                    continue;
+                $delegator = new $delegatorClass();
+
+                if (! is_callable($delegator)) {
+                    throw new ExpectedInvokableException();
                 }
 
-                // todo: probably we are missing some test case as we shouldn't allow delegators on invokable aliases:
-                // if (isset($dependencies['invokables'][$name]) && $name !== $dependencies['invokables'][$name]) {
-                //     continue;
-                // }
-
-                $container->extend($name, function ($service, Container $c) use ($delegator, $name) {
-                    $factory = new $delegator();
-                    $callback = function () use ($service) {
-                        return $service;
-                    };
-                    return $factory(new PsrContainer($c), $name, $callback);
-                });
+                $instance = $delegator(new PsrContainer($c), $name, $callback);
+                $callback = function () use ($instance) {
+                    return $instance;
+                };
             }
-        }
+
+            return $instance ?? $callback();
+        };
     }
 
     private function setService(Container $container, array $dependencies, string $name, callable $callback)
