@@ -73,31 +73,7 @@ class Config implements ConfigInterface
         }
 
         foreach ($dependencies['factories'] as $name => $object) {
-            if (isset($dependencies['delegators'][$name])) {
-                $this->injectDelegator(
-                    $container,
-                    function () use ($container, $name, $object) {
-                        if (is_callable($object)) {
-                            $factory = $object;
-                        } elseif (is_string($object) && ! class_exists($object)) {
-                            throw new ExpectedInvokableException();
-                        } else {
-                            $factory = new $object();
-                        }
-
-                        if (! is_callable($factory)) {
-                            throw new ExpectedInvokableException();
-                        }
-
-                        return $factory(new PsrContainer($container), $name);
-                    },
-                    $name,
-                    $dependencies['delegators'][$name]
-                );
-                continue;
-            }
-
-            $this->setService($container, $dependencies, $name, function (Container $c) use ($object, $name) {
+            $callback = function () use ($container, $object, $name) {
                 if (is_callable($object)) {
                     $factory = $object;
                 } elseif (is_string($object) && ! class_exists($object)) {
@@ -116,8 +92,20 @@ class Config implements ConfigInterface
                     ));
                 }
 
-                return $factory(new PsrContainer($c), $name);
-            });
+                return $factory(new PsrContainer($container), $name);
+            };
+
+            if (isset($dependencies['delegators'][$name])) {
+                $this->injectDelegator(
+                    $container,
+                    $callback,
+                    $name,
+                    $dependencies['delegators'][$name]
+                );
+                continue;
+            }
+
+            $this->setService($container, $dependencies, $name, $callback);
         }
     }
 
@@ -130,27 +118,26 @@ class Config implements ConfigInterface
         }
 
         foreach ($dependencies['invokables'] as $alias => $object) {
+            $callback = function () use ($object) {
+                if (! class_exists($object)) {
+                    throw new ExpectedInvokableException(sprintf(
+                        'Class %s does not exist',
+                        $object
+                    ));
+                }
+
+                return new $object();
+            };
+
             if (isset($dependencies['delegators'][$object])) {
                 $this->injectDelegator(
                     $container,
-                    function () use ($object) {
-                        if (! class_exists($object)) {
-                            throw new ExpectedInvokableException();
-                        }
-
-                        return new $object();
-                    },
+                    $callback,
                     $object,
                     $dependencies['delegators'][$object]
                 );
             } else {
-                $this->setService($container, $dependencies, $object, function (Container $c) use ($object) {
-                    if (! class_exists($object)) {
-                        throw new ExpectedInvokableException();
-                    }
-
-                    return new $object();
-                });
+                $this->setService($container, $dependencies, $object, $callback);
             }
 
             if (! is_int($alias) && $alias !== $object) {
