@@ -26,6 +26,28 @@ Versions prior to 0.2.0 were released as the package "webimpress/zend-pimple-con
 
 - Nothing.
 
+## 1.1.1 - TBD
+
+### Added
+
+- Nothing.
+
+### Changed
+
+- Nothing.
+
+### Deprecated
+
+- Nothing.
+
+### Removed
+
+- Nothing.
+
+### Fixed
+
+- Nothing.
+
 ## 1.1.0 - 2018-04-11
 
 ### Added
