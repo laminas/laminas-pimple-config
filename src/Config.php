@@ -76,18 +76,9 @@ class Config implements ConfigInterface
             $callback = function () use ($container, $object, $name) {
                 if (is_callable($object)) {
                     $factory = $object;
-                } elseif (is_string($object) && ! class_exists($object)) {
+                } elseif (! is_string($object) || ! class_exists($object) || ! is_callable($factory = new $object())) {
                     throw new ExpectedInvokableException(sprintf(
-                        'Factory provided to initialize service %s does not exist',
-                        $name
-                    ));
-                } else {
-                    $factory = new $object();
-                }
-
-                if (! is_callable($factory)) {
-                    throw new ExpectedInvokableException(sprintf(
-                        'Factory provided to initialize service %s is not invokable',
+                        'Factory provided to initialize service %s does not exist or is not callable',
                         $name
                     ));
                 }
