@@ -1,7 +1,7 @@
 <?php
 /**
  * @see       https://github.com/zendframework/zend-pimple-config for the canonical source repository
- * @copyright Copyright (c) 2017 Zend Technologies USA Inc. (https://www.zend.com)
+ * @copyright Copyright (c) 2017-2018 Zend Technologies USA Inc. (https://www.zend.com)
  * @license   https://github.com/zendframework/zend-pimple-config/blob/master/LICENSE.md New BSD License
  */
 
@@ -10,9 +10,14 @@ declare(strict_types=1);
 namespace Zend\Pimple\Config;
 
 use Pimple\Container;
+use Pimple\Exception\ExpectedInvokableException;
 use Pimple\Psr11\Container as PsrContainer;
 
+use function class_exists;
 use function is_array;
+use function is_callable;
+use function is_int;
+use function is_string;
 
 class Config implements ConfigInterface
 {
@@ -33,13 +38,15 @@ class Config implements ConfigInterface
         ) {
             $dependencies = $this->config['dependencies'];
         }
+        $dependencies['shared_by_default'] = isset($dependencies['shared_by_default'])
+            ? (bool) $dependencies['shared_by_default']
+            : true;
 
         $this->injectServices($container, $dependencies);
         $this->injectFactories($container, $dependencies);
         $this->injectInvokables($container, $dependencies);
         $this->injectAliases($container, $dependencies);
         $this->injectExtensions($container, $dependencies);
-        $this->injectDelegators($container, $dependencies);
     }
 
     private function injectServices(Container $container, array $dependencies) : void
@@ -66,15 +73,30 @@ class Config implements ConfigInterface
         }
 
         foreach ($dependencies['factories'] as $name => $object) {
-            $container[$name] = function (Container $c) use ($object, $name) {
-                if ($c->offsetExists($object)) {
-                    $factory = $c->offsetGet($object);
-                } else {
-                    $factory = new $object();
-                    $c[$object] = $c->protect($factory);
+            $callback = function () use ($container, $object, $name) {
+                if (is_callable($object)) {
+                    $factory = $object;
+                } elseif (! is_string($object) || ! class_exists($object) || ! is_callable($factory = new $object())) {
+                    throw new ExpectedInvokableException(sprintf(
+                        'Factory provided to initialize service %s does not exist or is not callable',
+                        $name
+                    ));
                 }
-                return $factory(new PsrContainer($c), $name);
+
+                return $factory(new PsrContainer($container), $name);
             };
+
+            if (isset($dependencies['delegators'][$name])) {
+                $this->injectDelegator(
+                    $container,
+                    $callback,
+                    $name,
+                    $dependencies['delegators'][$name]
+                );
+                continue;
+            }
+
+            $this->setService($container, $dependencies, $name, $callback);
         }
     }
 
@@ -86,16 +108,32 @@ class Config implements ConfigInterface
             return;
         }
 
-        foreach ($dependencies['invokables'] as $name => $object) {
-            if ($name !== $object) {
-                $container[$name] = function (Container $c) use ($object) {
-                    return $c->offsetGet($object);
-                };
-            }
+        foreach ($dependencies['invokables'] as $alias => $object) {
+            $callback = function () use ($object) {
+                if (! class_exists($object)) {
+                    throw new ExpectedInvokableException(sprintf(
+                        'Class %s does not exist',
+                        $object
+                    ));
+                }
 
-            $container[$object] = function (Container $c) use ($object) {
                 return new $object();
             };
+
+            if (isset($dependencies['delegators'][$object])) {
+                $this->injectDelegator(
+                    $container,
+                    $callback,
+                    $object,
+                    $dependencies['delegators'][$object]
+                );
+            } else {
+                $this->setService($container, $dependencies, $object, $callback);
+            }
+
+            if (! is_int($alias) && $alias !== $object) {
+                $this->setAlias($container, $dependencies, $alias, $object);
+            }
         }
     }
 
@@ -108,9 +146,7 @@ class Config implements ConfigInterface
         }
 
         foreach ($dependencies['aliases'] as $alias => $target) {
-            $container[$alias] = function (Container $c) use ($target) {
-                return $c->offsetGet($target);
-            };
+            $this->setAlias($container, $dependencies, $alias, $target);
         }
     }
 
@@ -132,24 +168,58 @@ class Config implements ConfigInterface
         }
     }
 
-    private function injectDelegators(Container $container, array $dependencies) : void
+    private function injectDelegator(Container $container, callable $callback, string $name, array $delegators)
     {
-        if (empty($dependencies['delegators'])
-            || ! is_array($dependencies['delegators'])
-        ) {
-            return;
-        }
+        $container[$name] = function (Container $c) use ($callback, $name, $delegators) {
+            foreach ($delegators as $delegatorClass) {
+                if (! class_exists($delegatorClass)) {
+                    throw new ExpectedInvokableException();
+                }
 
-        foreach ($dependencies['delegators'] as $name => $delegators) {
-            foreach ($delegators as $delegator) {
-                $container->extend($name, function ($service, Container $c) use ($delegator, $name) {
-                    $factory = new $delegator();
-                    $callback = function () use ($service) {
-                        return $service;
-                    };
-                    return $factory(new PsrContainer($c), $name, $callback);
-                });
+                $delegator = new $delegatorClass();
+
+                if (! is_callable($delegator)) {
+                    throw new ExpectedInvokableException();
+                }
+
+                $instance = $delegator(new PsrContainer($c), $name, $callback);
+                $callback = function () use ($instance) {
+                    return $instance;
+                };
             }
-        }
+
+            return $instance ?? $callback();
+        };
+    }
+
+    private function setAlias(Container $container, array $dependencies, string $alias, string $target)
+    {
+        $this->setService(
+            $container,
+            $dependencies,
+            $alias,
+            function () use ($container, $dependencies, $alias, $target) {
+                $instance = $container->offsetGet($target);
+
+                if (! $this->isShared($dependencies, $alias)) {
+                    return clone $instance;
+                }
+
+                return $instance;
+            }
+        );
+    }
+
+    private function setService(Container $container, array $dependencies, string $name, callable $callback)
+    {
+        $container[$name] = $this->isShared($dependencies, $name)
+            ? $callback
+            : $container->factory($callback);
+    }
+
+    private function isShared(array $dependencies, string $name)
+    {
+        return ($dependencies['shared_by_default'] === true && ! isset($dependencies['shared'][$name]))
+            || (isset($dependencies['shared'][$name]) && $dependencies['shared'][$name] === true);
     }
 }

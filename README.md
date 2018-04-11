@@ -32,12 +32,14 @@ $factory = new ContainerFactory();
 $container = $factory(
     new Config([
         'dependencies' => [
-            'services'   => [],
-            'invokables' => [],
-            'factories'  => [],
-            'aliases'    => [],
-            'delegators' => [],
-            'extensions' => [],
+            'services'          => [],
+            'invokables'        => [],
+            'factories'         => [],
+            'aliases'           => [],
+            'delegators'        => [],
+            'extensions'        => [],
+            'shared'            => [],
+            'shared_by_default' => true,
         ],
         // ... other configuration
     ])
@@ -62,6 +64,11 @@ The `dependencies` sub associative array can contain the following keys:
   for more details.
 - `extensions`: an associative array that maps service names to lists of
   extension factory names, see the [the section below](#extensions).
+- `shared`: associative array that map a service name to a boolean, in order to
+  indicate the service manager if it should cache or not a service created
+  through the get method, independant of the shared_by_default setting.
+- `shared_by_default`: boolean that indicates whether services created through
+  the `get` method should be cached. This is `true` by default.
 
 > Please note, that the whole configuration is available in the `$container`
 > on `config` key:

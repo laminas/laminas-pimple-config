@@ -4,7 +4,7 @@ All notable changes to this project will be documented in this file, in reverse 
 
 Versions prior to 0.2.0 were released as the package "webimpress/zend-pimple-config".
 
-## 1.1.0 - TBD
+## 1.2.0 - TBD
 
 ### Added
 
@@ -26,11 +26,15 @@ Versions prior to 0.2.0 were released as the package "webimpress/zend-pimple-con
 
 - Nothing.
 
-## 1.0.1 - TBD
+## 1.1.0 - 2018-04-11
 
 ### Added
 
-- Nothing.
+- [#6](https://github.com/zendframework/zend-pimple-config/pull/6) and
+  [#10](https://github.com/zendframework/zend-pimple-config/pull/10) add
+  support for `shared` and `shared_by_default` configuration, allowing the
+  ability to selectively alter whether or not a shared instance is returned by
+  the container for a given service.
 
 ### Changed
 
@@ -46,7 +50,13 @@ Versions prior to 0.2.0 were released as the package "webimpress/zend-pimple-con
 
 ### Fixed
 
-- Nothing.
+- [#10](https://github.com/zendframework/zend-pimple-config/pull/10) fixes
+  factory configuration support to test that a factory class name is callable
+  before allowing registration of the factory.
+
+- [#10](https://github.com/zendframework/zend-pimple-config/pull/10) fixes
+  how aliases to shared services work; they should never return a cloned
+  instance of the service.
 
 ## 1.0.0 - 2018-03-15
 
