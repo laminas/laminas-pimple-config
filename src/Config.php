@@ -132,9 +132,7 @@ class Config implements ConfigInterface
             }
 
             if (! is_int($alias) && $alias !== $object) {
-                $container[$alias] = function (Container $c) use ($object) {
-                    return $c->offsetGet($object);
-                };
+                $this->setAlias($container, $dependencies, $alias, $object);
             }
         }
     }
@@ -148,9 +146,7 @@ class Config implements ConfigInterface
         }
 
         foreach ($dependencies['aliases'] as $alias => $target) {
-            $container[$alias] = function (Container $c) use ($target) {
-                return $c->offsetGet($target);
-            };
+            $this->setAlias($container, $dependencies, $alias, $target);
         }
     }
 
@@ -196,14 +192,34 @@ class Config implements ConfigInterface
         };
     }
 
+    private function setAlias(Container $container, array $dependencies, string $alias, string $target)
+    {
+        $this->setService(
+            $container,
+            $dependencies,
+            $alias,
+            function () use ($container, $dependencies, $alias, $target) {
+                $instance = $container->offsetGet($target);
+
+                if (! $this->isShared($dependencies, $alias)) {
+                    return clone $instance;
+                }
+
+                return $instance;
+            }
+        );
+    }
+
     private function setService(Container $container, array $dependencies, string $name, callable $callback)
     {
-        if (($dependencies['shared_by_default'] === true && ! isset($dependencies['shared'][$name]))
-            || (isset($dependencies['shared'][$name]) && $dependencies['shared'][$name] === true)
-        ) {
-            $container[$name] = $callback;
-        } else {
-            $container[$name] = $container->factory($callback);
-        }
+        $container[$name] = $this->isShared($dependencies, $name)
+            ? $callback
+            : $container->factory($callback);
+    }
+
+    private function isShared(array $dependencies, string $name)
+    {
+        return ($dependencies['shared_by_default'] === true && ! isset($dependencies['shared'][$name]))
+            || (isset($dependencies['shared'][$name]) && $dependencies['shared'][$name] === true);
     }
 }
