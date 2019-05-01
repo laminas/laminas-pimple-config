@@ -30,7 +30,7 @@ Versions prior to 0.2.0 were released as the package "webimpress/zend-pimple-con
 
 ### Added
 
-- Nothing.
+- [#11](https://github.com/zendframework/zend-pimple-config/pull/11) adds support for PHP 7.3.
 
 ### Changed
 
