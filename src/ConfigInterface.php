@@ -1,6 +1,6 @@
 <?php
 
-namespace Zend\Pimple\Config;
+namespace Laminas\Pimple\Config;
 
 use Pimple\Container;
 

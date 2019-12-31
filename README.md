@@ -1,19 +1,19 @@
-# zend-pimple-config
+# laminas-pimple-config
 
-[![Build Status](https://secure.travis-ci.org/webimpress/zend-pimple-config.svg?branch=master)](https://secure.travis-ci.org/webimpress/zend-pimple-config)
-[![Coverage Status](https://coveralls.io/repos/github/webimpress/zend-pimple-config/badge.svg?branch=master)](https://coveralls.io/github/webimpress/zend-pimple-config?branch=master)
+[![Build Status](https://travis-ci.org/webimpress/laminas-pimple-config.svg?branch=master)](https://travis-ci.org/webimpress/laminas-pimple-config)
+[![Coverage Status](https://coveralls.io/repos/github/webimpress/laminas-pimple-config/badge.svg?branch=master)](https://coveralls.io/github/webimpress/laminas-pimple-config?branch=master)
 
 This library provides utilities to configure
 [PSR-11](http://www.php-fig.org/psr/psr-11/)
 [Pimple container](https://github.com/silexphp/Pimple)
-using ZendFramework ServiceManager configuration.
+using Laminas ServiceManager configuration.
 
 ## Installation
 
 Run the following to install this library:
 
 ```bash
-$ composer require webimpress/zend-pimple-config
+$ composer require webimpress/laminas-pimple-config
 ```
 
 ## Configuration
@@ -23,8 +23,8 @@ Pimple Container do the following:
 
 ```php
 <?php
-use Zend\Pimple\Config\Config;
-use Zend\Pimple\Config\ContainerFactory;
+use Laminas\Pimple\Config\Config;
+use Laminas\Pimple\Config\ContainerFactory;
 
 $factory = new ContainerFactory();
 
@@ -54,7 +54,7 @@ The `dependencies` sub associative array can contain the following keys:
   alias).
 - `delegators`: an associative array that maps service keys to lists of
   delegator factory keys, see the
-  [delegators documentation](https://docs.zendframework.com/zend-servicemanager/delegators/)
+  [delegators documentation](https://docs.laminas.dev/laminas-servicemanager/delegators/)
   for more details.
 - `extensions`: an associative array that maps service keys to lists of
   extension factory keys, see the [the section below](#extensions).
@@ -69,9 +69,9 @@ The `dependencies` sub associative array can contain the following keys:
 ### `extensions`
 
 > The `extensions` configuration is only available with Pimple container.
-> If you are using [Aura.Di container](https://github.com/webimpress/zend-auradi-config)
-> or [Zend\ServiceManager](https://github.com/webimpress/zend-servicemanager)
-> you can use [`delegators`](https://docs.zendframework.com/zend-servicemanager/delegators/).
+> If you are using [Aura.Di container](https://github.com/webimpress/laminas-auradi-config)
+> or [Laminas\ServiceManager](https://github.com/webimpress/laminas-servicemanager)
+> you can use [`delegators`](https://docs.laminas.dev/laminas-servicemanager/delegators/).
 > It is recommended to use `delegators` if you'd like to keep the highest
 > compatibility and you would consider changing container library in the
 > future.
@@ -160,19 +160,19 @@ $finalService = $extension2Factory(
 );
 ```
 
-## Using with Expressive
+## Using with Mezzio
 
 First you have to install the library:
 ```bash
-$ composer require webimpress/zend-pimple-config
+$ composer require webimpress/laminas-pimple-config
 ```
 
 Then replace contents of `config/container.php` with the following:
 ```php
 <?php
 
-use Zend\Pimple\Config\Config;
-use Zend\Pimple\Config\ContainerFactory;
+use Laminas\Pimple\Config\Config;
+use Laminas\Pimple\Config\ContainerFactory;
 
 $config  = require __DIR__ . '/config.php';
 $factory = new ContainerFactory();

@@ -1,6 +1,6 @@
 <?php
 
-namespace ZendTest\Pimple\Config\TestAsset;
+namespace LaminasTest\Pimple\Config\TestAsset;
 
 class Decorator1
 {

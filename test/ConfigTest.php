@@ -1,10 +1,10 @@
 <?php
 
-namespace ZendTest\Pimple\Config;
+namespace LaminasTest\Pimple\Config;
 
+use Laminas\Pimple\Config\Config;
 use PHPUnit\Framework\TestCase;
 use Pimple\Container;
-use Zend\Pimple\Config\Config;
 
 class ConfigTest extends TestCase
 {

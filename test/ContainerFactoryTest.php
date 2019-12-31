@@ -1,13 +1,13 @@
 <?php
 
-namespace ZendTest\Pimple\Config;
+namespace LaminasTest\Pimple\Config;
 
+use Laminas\Pimple\Config\ConfigInterface;
+use Laminas\Pimple\Config\ContainerFactory;
 use PHPUnit\Framework\TestCase;
 use Pimple\Container;
 use Prophecy\Argument;
 use Psr\Container\ContainerInterface;
-use Zend\Pimple\Config\ConfigInterface;
-use Zend\Pimple\Config\ContainerFactory;
 
 class ContainerFactoryTest extends TestCase
 {
