@@ -2,7 +2,7 @@
 
 All notable changes to this project will be documented in this file, in reverse chronological order by release.
 
-Versions prior to 0.2.0 were released as the package "webimpress/zend-pimple-config".
+Versions prior to 0.2.0 were released as the package "webimpress/laminas-pimple-config".
 
 ## 1.0.0alpha1 - 2018-02-07
 
@@ -20,7 +20,7 @@ Versions prior to 0.2.0 were released as the package "webimpress/zend-pimple-con
 
 ### Removed
 
-- [#3](https://github.com/zendframework/zend-pimple-config/pull/3)
+- [zendframework/zend-pimple-config#3](https://github.com/zendframework/zend-pimple-config/pull/3)
   removes support for PHP versions prior to PHP 7.1.
 
 ### Fixed
@@ -35,7 +35,7 @@ Versions prior to 0.2.0 were released as the package "webimpress/zend-pimple-con
 
 ### Changed
 
-- The package name has changed to `zendframework/zend-pimple-config`.
+- The package name has changed to `laminas/laminas-pimple-config`.
 
 ### Deprecated
 
