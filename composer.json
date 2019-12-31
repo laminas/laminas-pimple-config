@@ -1,39 +1,22 @@
 {
-    "name": "zendframework/zend-pimple-config",
-    "description": "PSR-11 Pimple container configurator for ZF and Expressive applications",
+    "name": "laminas/laminas-pimple-config",
+    "description": "PSR-11 Pimple container configurator for Laminas and Mezzio applications",
     "license": "BSD-3-Clause",
     "keywords": [
-        "expressive",
-        "zf",
-        "zendframework",
+        "laminas",
+        "mezzio",
         "pimple",
         "container",
         "psr-11"
     ],
+    "homepage": "https://laminas.dev",
     "support": {
-        "issues": "https://github.com/zendframework/zend-pimple-config/issues",
-        "source": "https://github.com/zendframework/zend-pimple-config",
-        "rss": "https://github.com/zendframework/zend-pimple-config/releases.atom",
-        "slack": "https://zendframework-slack.herokuapp.com",
-        "forum": "https://discourse.zendframework.com/c/questions/expressive"
-    },
-    "require": {
-        "php": "^7.1",
-        "pimple/pimple": "^3.2.2"
-    },
-    "require-dev": {
-        "phpunit/phpunit": "^7.0.2",
-        "zendframework/zend-coding-standard": "~1.0.0"
-    },
-    "autoload": {
-        "psr-4": {
-            "Zend\\Pimple\\Config\\": "src"
-        }
-    },
-    "autoload-dev": {
-        "psr-4": {
-            "ZendTest\\Pimple\\Config\\": "test"
-        }
+        "docs": "https://docs.laminas.dev/laminas-pimple-config/",
+        "issues": "https://github.com/laminas/laminas-pimple-config/issues",
+        "source": "https://github.com/laminas/laminas-pimple-config",
+        "rss": "https://github.com/laminas/laminas-pimple-config/releases.atom",
+        "chat": "https://laminas.dev/chat",
+        "forum": "https://discourse.laminas.dev"
     },
     "config": {
         "sort-packages": true
@@ -42,6 +25,25 @@
         "branch-alias": {
             "dev-master": "1.0.x-dev",
             "dev-develop": "1.1.x-dev"
+        }
+    },
+    "require": {
+        "php": "^7.1",
+        "laminas/laminas-zendframework-bridge": "^1.0",
+        "pimple/pimple": "^3.2.2"
+    },
+    "require-dev": {
+        "laminas/laminas-coding-standard": "~1.0.0",
+        "phpunit/phpunit": "^7.0.2"
+    },
+    "autoload": {
+        "psr-4": {
+            "Laminas\\Pimple\\Config\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "LaminasTest\\Pimple\\Config\\": "test/"
         }
     },
     "scripts": {
@@ -53,5 +55,8 @@
         "cs-fix": "phpcbf",
         "test": "phpunit --colors=always",
         "test-coverage": "phpunit --colors=always --coverage-clover clover.xml"
+    },
+    "replace": {
+        "zendframework/zend-pimple-config": "self.version"
     }
 }
