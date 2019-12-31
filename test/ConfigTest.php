@@ -1,17 +1,18 @@
 <?php
+
 /**
- * @see       https://github.com/zendframework/zend-pimple-config for the canonical source repository
- * @copyright Copyright (c) 2017-2018 Zend Technologies USA Inc. (https://www.zend.com)
- * @license   https://github.com/zendframework/zend-pimple-config/blob/master/LICENSE.md New BSD License
+ * @see       https://github.com/laminas/laminas-pimple-config for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-pimple-config/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-pimple-config/blob/master/LICENSE.md New BSD License
  */
 
 declare(strict_types=1);
 
-namespace ZendTest\Pimple\Config;
+namespace LaminasTest\Pimple\Config;
 
+use Laminas\Pimple\Config\Config;
 use PHPUnit\Framework\TestCase;
 use Pimple\Container;
-use Zend\Pimple\Config\Config;
 
 class ConfigTest extends TestCase
 {

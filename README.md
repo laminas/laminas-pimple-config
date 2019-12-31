@@ -1,20 +1,20 @@
-# zend-pimple-config
+# laminas-pimple-config
 
-[![Build Status](https://secure.travis-ci.org/zendframework/zend-pimple-config.svg?branch=master)](https://secure.travis-ci.org/zendframework/zend-pimple-config)
-[![Coverage Status](https://coveralls.io/repos/github/zendframework/zend-pimple-config/badge.svg?branch=master)](https://coveralls.io/github/zendframework/zend-pimple-config?branch=master)
+[![Build Status](https://travis-ci.org/laminas/laminas-pimple-config.svg?branch=master)](https://travis-ci.org/laminas/laminas-pimple-config)
+[![Coverage Status](https://coveralls.io/repos/github/laminas/laminas-pimple-config/badge.svg?branch=master)](https://coveralls.io/github/laminas/laminas-pimple-config?branch=master)
 
 This library provides utilities to configure
 a [PSR-11](http://www.php-fig.org/psr/psr-11/) compatible
 [Pimple container](https://github.com/silexphp/Pimple)
-using zend-servicemanager configuration, for purposes of usage within
-[Expressive](https://docs.zendframework.com/zend-expressive).
+using laminas-servicemanager configuration, for purposes of usage within
+[Mezzio](https://docs.mezzio.dev/mezzio).
 
 ## Installation
 
 Run the following to install this library:
 
 ```bash
-$ composer require zendframework/zend-pimple-config
+$ composer require laminas/laminas-pimple-config
 ```
 
 ## Configuration
@@ -24,8 +24,8 @@ Pimple container, do the following:
 
 ```php
 <?php
-use Zend\Pimple\Config\Config;
-use Zend\Pimple\Config\ContainerFactory;
+use Laminas\Pimple\Config\Config;
+use Laminas\Pimple\Config\ContainerFactory;
 
 $factory = new ContainerFactory();
 
@@ -60,7 +60,7 @@ The `dependencies` sub associative array can contain the following keys:
   another alias).
 - `delegators`: an associative array that maps service names to lists of
   delegator factory keys, see the
-  [Expressive delegators documentation](https://docs.zendframework.com/zend-servicemanager/delegators/)
+  [Mezzio delegators documentation](https://docs.laminas.dev/laminas-servicemanager/delegators/)
   for more details.
 - `extensions`: an associative array that maps service names to lists of
   extension factory names, see the [the section below](#extensions).
@@ -80,9 +80,9 @@ The `dependencies` sub associative array can contain the following keys:
 ### `extensions`
 
 > The `extensions` configuration is only available with the Pimple container.
-> If you are using [Aura.Di](https://github.com/zendframework/zend-auradi-config)
-> or [zend-servicemanager](https://docs.zendframework.com/zend-servicemanager/),
-> you can use [`delegators`](https://docs.zendframework.com/zend-servicemanager/delegators/)
+> If you are using [Aura.Di](https://github.com/laminas/laminas-auradi-config)
+> or [laminas-servicemanager](https://docs.laminas.dev/laminas-servicemanager/),
+> you can use [`delegators`](https://docs.laminas.dev/laminas-servicemanager/delegators/)
 > instead. It is recommended to use `delegators` if you'd like to keep the 
 > highest compatibility and might consider changing the container library you
 > use in the future.
@@ -158,15 +158,15 @@ new Config([
 
 Service extensions are called in the same order as defined in the list.
 
-## Using with Expressive
+## Using with Mezzio
 
 Replace contents of `config/container.php` with the following:
 
 ```php
 <?php
 
-use Zend\Pimple\Config\Config;
-use Zend\Pimple\Config\ContainerFactory;
+use Laminas\Pimple\Config\Config;
+use Laminas\Pimple\Config\ContainerFactory;
 
 $config  = require __DIR__ . '/config.php';
 $factory = new ContainerFactory();
