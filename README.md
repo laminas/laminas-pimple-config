@@ -1,6 +1,6 @@
 # laminas-pimple-config
 
-[![Build Status](https://travis-ci.org/laminas/laminas-pimple-config.svg?branch=master)](https://travis-ci.org/laminas/laminas-pimple-config)
+[![Build Status](https://travis-ci.com/laminas/laminas-pimple-config.svg?branch=master)](https://travis-ci.com/laminas/laminas-pimple-config)
 [![Coverage Status](https://coveralls.io/repos/github/laminas/laminas-pimple-config/badge.svg?branch=master)](https://coveralls.io/github/laminas/laminas-pimple-config?branch=master)
 
 This library provides utilities to configure
