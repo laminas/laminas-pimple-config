@@ -11,7 +11,6 @@
     ],
     "homepage": "https://laminas.dev",
     "support": {
-        "docs": "https://docs.laminas.dev/laminas-pimple-config/",
         "issues": "https://github.com/laminas/laminas-pimple-config/issues",
         "source": "https://github.com/laminas/laminas-pimple-config",
         "rss": "https://github.com/laminas/laminas-pimple-config/releases.atom",
