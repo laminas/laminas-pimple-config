@@ -2,7 +2,7 @@
 
 All notable changes to this project will be documented in this file, in reverse chronological order by release.
 
-Versions prior to 0.2.0 were released as the package "webimpress/laminas-pimple-config".
+Versions prior to 0.2.0 were released as the package "webimpress/zend-pimple-config".
 
 ## 1.2.0 - TBD
 
