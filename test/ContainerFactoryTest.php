@@ -19,10 +19,12 @@ use Psr\Container\ContainerInterface;
 
 class ContainerFactoryTest extends TestCase
 {
+    use \Prophecy\PhpUnit\ProphecyTrait;
+
     /** @var ContainerFactory */
     private $factory;
 
-    protected function setUp()
+    protected function setUp() : void
     {
         parent::setUp();
 
