@@ -13,16 +13,19 @@ namespace LaminasTest\Pimple\Config;
 use Laminas\Pimple\Config\ConfigInterface;
 use Laminas\Pimple\Config\ContainerFactory;
 use PHPUnit\Framework\TestCase;
+use Prophecy\PhpUnit\ProphecyTrait;
 use Pimple\Container;
 use Prophecy\Argument;
 use Psr\Container\ContainerInterface;
 
 class ContainerFactoryTest extends TestCase
 {
+    use ProphecyTrait;
+
     /** @var ContainerFactory */
     private $factory;
 
-    protected function setUp()
+    protected function setUp() : void
     {
         parent::setUp();
 
