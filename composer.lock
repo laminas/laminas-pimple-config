@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "06fb2496a3f9ebda3fed14a0fab1e3db",
+    "content-hash": "10ba2fe4320e73909e0341a92af5d90c",
     "packages": [
         {
             "name": "laminas/laminas-zendframework-bridge",
@@ -284,25 +284,25 @@
         },
         {
             "name": "laminas/laminas-container-config-test",
-            "version": "0.2.2",
+            "version": "0.3.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laminas/laminas-container-config-test.git",
-                "reference": "426b0b0385f301dc6be6353a69591d60090c647e"
+                "reference": "53f73a68654748eb1d5664111b05c15a543a7a57"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laminas/laminas-container-config-test/zipball/426b0b0385f301dc6be6353a69591d60090c647e",
-                "reference": "426b0b0385f301dc6be6353a69591d60090c647e",
+                "url": "https://api.github.com/repos/laminas/laminas-container-config-test/zipball/53f73a68654748eb1d5664111b05c15a543a7a57",
+                "reference": "53f73a68654748eb1d5664111b05c15a543a7a57",
                 "shasum": ""
             },
             "require": {
                 "laminas/laminas-zendframework-bridge": "^1.0",
-                "php": "^7.1",
+                "php": "^7.3 || ~8.0.0",
                 "psr/container": "^1.0"
             },
             "replace": {
-                "zendframework/zend-container-config-test": "self.version"
+                "zendframework/zend-container-config-test": "^0.2.2"
             },
             "require-dev": {
                 "laminas/laminas-auradi-config": "^1.0.1",
@@ -312,11 +312,6 @@
                 "phpunit/phpunit": "^7.5.15 || ^8.3.4"
             },
             "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "1.0.x-dev"
-                }
-            },
             "autoload": {
                 "files": [
                     "src/TestAsset/function-factory.php",
@@ -343,13 +338,18 @@
             ],
             "support": {
                 "chat": "https://laminas.dev/chat",
-                "docs": "https://docs.laminas.dev/laminas-container-config-test/",
                 "forum": "https://discourse.laminas.dev",
                 "issues": "https://github.com/laminas/laminas-container-config-test/issues",
                 "rss": "https://github.com/laminas/laminas-container-config-test/releases.atom",
                 "source": "https://github.com/laminas/laminas-container-config-test"
             },
-            "time": "2019-12-31T16:31:48+00:00"
+            "funding": [
+                {
+                    "url": "https://funding.communitybridge.org/projects/laminas-project",
+                    "type": "community_bridge"
+                }
+            ],
+            "time": "2021-04-13T19:59:45+00:00"
         },
         {
             "name": "myclabs/deep-copy",
@@ -2064,7 +2064,7 @@
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
-        "php": "^5.6 || ^7.0"
+        "php": "^7.1"
     },
     "platform-dev": [],
     "plugin-api-version": "2.0.0"
