@@ -1,7 +1,6 @@
 # laminas-pimple-config
 
-[![Build Status](https://travis-ci.com/laminas/laminas-pimple-config.svg?branch=master)](https://travis-ci.com/laminas/laminas-pimple-config)
-[![Coverage Status](https://coveralls.io/repos/github/laminas/laminas-pimple-config/badge.svg?branch=master)](https://coveralls.io/github/laminas/laminas-pimple-config?branch=master)
+[![Build Status](https://github.com/laminas/laminas-pimple-config/workflows/Continuous%20Integration/badge.svg)](https://github.com/laminas/laminas-pimple-config/actions?query=workflow%3A"Continuous+Integration")
 
 This library provides utilities to configure
 a [PSR-11](http://www.php-fig.org/psr/psr-11/) compatible
