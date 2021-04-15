@@ -13,6 +13,7 @@ namespace Laminas\Pimple\Config;
 use Pimple\Container;
 use Pimple\Exception\ExpectedInvokableException;
 use Pimple\Psr11\Container as PsrContainer;
+use Psr\Container\ContainerInterface;
 
 use function class_exists;
 use function is_array;
@@ -29,9 +30,10 @@ class Config implements ConfigInterface
         $this->config = $config;
     }
 
-    public function configureContainer(Container $container) : void
+    public function configureContainer(Container $container) : ContainerInterface
     {
         $container['config'] = $this->config;
+        $psrContainer = new PsrContainer($container);
 
         $dependencies = [];
         if (isset($this->config['dependencies'])
@@ -44,10 +46,12 @@ class Config implements ConfigInterface
             : true;
 
         $this->injectServices($container, $dependencies);
-        $this->injectFactories($container, $dependencies);
-        $this->injectInvokables($container, $dependencies);
+        $this->injectFactories($psrContainer, $container, $dependencies);
+        $this->injectInvokables($psrContainer, $container, $dependencies);
         $this->injectAliases($container, $dependencies);
-        $this->injectExtensions($container, $dependencies);
+        $this->injectExtensions($psrContainer, $container, $dependencies);
+
+        return $psrContainer;
     }
 
     private function injectServices(Container $container, array $dependencies) : void
@@ -65,7 +69,7 @@ class Config implements ConfigInterface
         }
     }
 
-    private function injectFactories(Container $container, array $dependencies) : void
+    private function injectFactories(PsrContainer $psrContainer, Container $container, array $dependencies) : void
     {
         if (empty($dependencies['factories'])
             || ! is_array($dependencies['factories'])
@@ -74,7 +78,7 @@ class Config implements ConfigInterface
         }
 
         foreach ($dependencies['factories'] as $name => $object) {
-            $callback = function () use ($container, $object, $name) {
+            $callback = function () use ($psrContainer, $container, $object, $name) {
                 if (is_callable($object)) {
                     $factory = $object;
                 } elseif (! is_string($object) || ! class_exists($object) || ! is_callable($factory = new $object())) {
@@ -84,11 +88,12 @@ class Config implements ConfigInterface
                     ));
                 }
 
-                return $factory(new PsrContainer($container), $name);
+                return $factory($psrContainer, $name);
             };
 
             if (isset($dependencies['delegators'][$name])) {
                 $this->injectDelegator(
+                    $psrContainer,
                     $container,
                     $callback,
                     $name,
@@ -101,7 +106,7 @@ class Config implements ConfigInterface
         }
     }
 
-    private function injectInvokables(Container $container, array $dependencies) : void
+    private function injectInvokables(PsrContainer $psrContainer, Container $container, array $dependencies) : void
     {
         if (empty($dependencies['invokables'])
             || ! is_array($dependencies['invokables'])
@@ -123,6 +128,7 @@ class Config implements ConfigInterface
 
             if (isset($dependencies['delegators'][$object])) {
                 $this->injectDelegator(
+                    $psrContainer,
                     $container,
                     $callback,
                     $object,
@@ -151,7 +157,7 @@ class Config implements ConfigInterface
         }
     }
 
-    private function injectExtensions(Container $container, array $dependencies) : void
+    private function injectExtensions(PsrContainer $psrContainer, Container $container, array $dependencies) : void
     {
         if (empty($dependencies['extensions'])
             || ! is_array($dependencies['extensions'])
@@ -161,17 +167,22 @@ class Config implements ConfigInterface
 
         foreach ($dependencies['extensions'] as $name => $extensions) {
             foreach ($extensions as $extension) {
-                $container->extend($name, function ($service, Container $c) use ($extension, $name) {
+                $container->extend($name, function ($service, Container $c) use ($psrContainer, $extension, $name) {
                     $factory = new $extension();
-                    return $factory($service, new PsrContainer($c), $name); // passing extra parameter $name
+                    return $factory($service, $psrContainer, $name); // passing extra parameter $name
                 });
             }
         }
     }
 
-    private function injectDelegator(Container $container, callable $callback, string $name, array $delegators)
-    {
-        $container[$name] = function (Container $c) use ($callback, $name, $delegators) {
+    private function injectDelegator(
+        PsrContainer $psrContainer,
+        Container $container,
+        callable $callback,
+        string $name,
+        array $delegators
+    ) {
+        $container[$name] = function (Container $c) use ($psrContainer, $callback, $name, $delegators) {
             foreach ($delegators as $delegatorClass) {
                 if (! class_exists($delegatorClass)) {
                     throw new ExpectedInvokableException();
@@ -183,7 +194,7 @@ class Config implements ConfigInterface
                     throw new ExpectedInvokableException();
                 }
 
-                $instance = $delegator(new PsrContainer($c), $name, $callback);
+                $instance = $delegator($psrContainer, $name, $callback);
                 $callback = function () use ($instance) {
                     return $instance;
                 };

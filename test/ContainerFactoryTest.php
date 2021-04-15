@@ -33,6 +33,9 @@ class ContainerFactoryTest extends TestCase
     {
         $factory = $this->factory;
         $config = $this->prophesize(ConfigInterface::class);
+        $config
+            ->configureContainer(Argument::type(Container::class))
+            ->willReturn($this->prophesize(ContainerInterface::class)->reveal());
 
         $container = $factory($config->reveal());
 

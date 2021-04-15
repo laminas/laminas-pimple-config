@@ -13,6 +13,7 @@ namespace LaminasTest\Pimple\Config;
 use Laminas\Pimple\Config\Config;
 use PHPUnit\Framework\TestCase;
 use Pimple\Container;
+use Pimple\Psr11\Container as Psr11Container;
 
 class ConfigTest extends TestCase
 {
@@ -22,6 +23,13 @@ class ConfigTest extends TestCase
     protected function setUp()
     {
         $this->container = new Container();
+    }
+
+    public function testConfigureContainerReturnsPsrContainer()
+    {
+        $container = (new Config([]))->configureContainer($this->container);
+
+        self::assertInstanceOf(Psr11Container::class, $container);
     }
 
     public function testInjectConfiguration()

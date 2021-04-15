@@ -11,8 +11,9 @@ declare(strict_types=1);
 namespace Laminas\Pimple\Config;
 
 use Pimple\Container;
+use Psr\Container\ContainerInterface;
 
 interface ConfigInterface
 {
-    public function configureContainer(Container $container) : void;
+    public function configureContainer(Container $container) : ContainerInterface;
 }

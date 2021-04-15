@@ -12,14 +12,12 @@ namespace Laminas\Pimple\Config;
 
 use Pimple\Container;
 use Pimple\Psr11\Container as PsrContainer;
+use Psr\Container\ContainerInterface;
 
 class ContainerFactory
 {
-    public function __invoke(ConfigInterface $config) : PsrContainer
+    public function __invoke(ConfigInterface $config) : ContainerInterface
     {
-        $container = new Container();
-        $config->configureContainer($container);
-
-        return new PsrContainer($container);
+        return $config->configureContainer(new Container());
     }
 }
