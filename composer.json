@@ -1,7 +1,6 @@
 {
     "name": "laminas/laminas-pimple-config",
     "description": "PSR-11 Pimple container configurator for Laminas and Mezzio applications",
-    "license": "BSD-3-Clause",
     "keywords": [
         "laminas",
         "mezzio",
@@ -10,28 +9,24 @@
         "psr-11"
     ],
     "homepage": "https://laminas.dev",
-    "support": {
-        "issues": "https://github.com/laminas/laminas-pimple-config/issues",
-        "source": "https://github.com/laminas/laminas-pimple-config",
-        "rss": "https://github.com/laminas/laminas-pimple-config/releases.atom",
-        "chat": "https://laminas.dev/chat",
-        "forum": "https://discourse.laminas.dev"
-    },
-    "config": {
-        "sort-packages": true
-    },
-    "extra": {
-    },
+    "license": "BSD-3-Clause",
     "require": {
         "php": "^7.1",
         "laminas/laminas-zendframework-bridge": "^1.0",
         "pimple/pimple": "^3.2.2"
+    },
+    "replace": {
+        "zendframework/zend-pimple-config": "^1.1.1"
     },
     "require-dev": {
         "laminas/laminas-coding-standard": "~1.0.0",
         "laminas/laminas-container-config-test": "^0.2 || ^0.3 || ^1.0",
         "phpunit/phpunit": "^7.1.2"
     },
+    "config": {
+        "sort-packages": true
+    },
+    "extra": {},
     "autoload": {
         "psr-4": {
             "Laminas\\Pimple\\Config\\": "src/"
@@ -52,7 +47,11 @@
         "test": "phpunit --colors=always",
         "test-coverage": "phpunit --colors=always --coverage-clover clover.xml"
     },
-    "replace": {
-        "zendframework/zend-pimple-config": "^1.1.1"
+    "support": {
+        "issues": "https://github.com/laminas/laminas-pimple-config/issues",
+        "forum": "https://discourse.laminas.dev",
+        "chat": "https://laminas.dev/chat",
+        "source": "https://github.com/laminas/laminas-pimple-config",
+        "rss": "https://github.com/laminas/laminas-pimple-config/releases.atom"
     }
 }
