@@ -284,16 +284,16 @@
         },
         {
             "name": "laminas/laminas-container-config-test",
-            "version": "0.3.1",
+            "version": "0.3.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laminas/laminas-container-config-test.git",
-                "reference": "53f73a68654748eb1d5664111b05c15a543a7a57"
+                "reference": "090ccad748e822eb0c113c834811936cf515786f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laminas/laminas-container-config-test/zipball/53f73a68654748eb1d5664111b05c15a543a7a57",
-                "reference": "53f73a68654748eb1d5664111b05c15a543a7a57",
+                "url": "https://api.github.com/repos/laminas/laminas-container-config-test/zipball/090ccad748e822eb0c113c834811936cf515786f",
+                "reference": "090ccad748e822eb0c113c834811936cf515786f",
                 "shasum": ""
             },
             "require": {
@@ -309,7 +309,9 @@
                 "laminas/laminas-coding-standard": "~1.0.0",
                 "laminas/laminas-pimple-config": "^1.1",
                 "laminas/laminas-servicemanager": "^3.3.2",
-                "phpunit/phpunit": "^7.5.15 || ^8.3.4"
+                "phpunit/phpunit": "^7.5.15 || ^8.3.4",
+                "psalm/plugin-phpunit": "^0.15.1",
+                "vimeo/psalm": "^4.7"
             },
             "type": "library",
             "autoload": {
@@ -349,7 +351,7 @@
                     "type": "community_bridge"
                 }
             ],
-            "time": "2021-04-13T19:59:45+00:00"
+            "time": "2021-04-19T14:56:37+00:00"
         },
         {
             "name": "myclabs/deep-copy",
