@@ -1,11 +1,5 @@
 <?php
 
-/**
- * @see       https://github.com/laminas/laminas-pimple-config for the canonical source repository
- * @copyright https://github.com/laminas/laminas-pimple-config/blob/master/COPYRIGHT.md
- * @license   https://github.com/laminas/laminas-pimple-config/blob/master/LICENSE.md New BSD License
- */
-
 declare(strict_types=1);
 
 namespace LaminasTest\Pimple\Config;
@@ -14,7 +8,6 @@ use Laminas\Pimple\Config\ConfigInterface;
 use Laminas\Pimple\Config\ContainerFactory;
 use PHPUnit\Framework\TestCase;
 use Pimple\Container;
-use Prophecy\Argument;
 use Psr\Container\ContainerInterface;
 
 class ContainerFactoryTest extends TestCase
@@ -22,19 +15,17 @@ class ContainerFactoryTest extends TestCase
     /** @var ContainerFactory */
     private $factory;
 
-    protected function setUp()
+    protected function setUp(): void
     {
-        parent::setUp();
-
         $this->factory = new ContainerFactory();
     }
 
     public function testFactoryCreatesPsr11Container()
     {
         $factory = $this->factory;
-        $config = $this->prophesize(ConfigInterface::class);
+        $config  = $this->createMock(ConfigInterface::class);
 
-        $container = $factory($config->reveal());
+        $container = $factory($config);
 
         self::assertInstanceOf(ContainerInterface::class, $container);
     }
@@ -43,11 +34,12 @@ class ContainerFactoryTest extends TestCase
     {
         $factory = $this->factory;
 
-        $config = $this->prophesize(ConfigInterface::class);
+        $config = $this->createMock(ConfigInterface::class);
         $config
-            ->configureContainer(Argument::type(Container::class))
-            ->shouldBeCalledTimes(1);
+            ->expects($this->once())
+            ->method('configureContainer')
+            ->with($this->isInstanceOf(Container::class));
 
-        $factory($config->reveal());
+        $factory($config);
     }
 }
