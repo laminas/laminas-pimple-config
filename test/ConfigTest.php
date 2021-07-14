@@ -1,11 +1,5 @@
 <?php
 
-/**
- * @see       https://github.com/laminas/laminas-pimple-config for the canonical source repository
- * @copyright https://github.com/laminas/laminas-pimple-config/blob/master/COPYRIGHT.md
- * @license   https://github.com/laminas/laminas-pimple-config/blob/master/LICENSE.md New BSD License
- */
-
 declare(strict_types=1);
 
 namespace LaminasTest\Pimple\Config;
@@ -19,7 +13,7 @@ class ConfigTest extends TestCase
     /** @var Container */
     private $container;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         $this->container = new Container();
     }
@@ -60,9 +54,9 @@ class ConfigTest extends TestCase
 
     public function testInjectExtensionForService()
     {
-        $myService = new TestAsset\Service();
+        $myService    = new TestAsset\Service();
         $dependencies = [
-            'services' => [
+            'services'   => [
                 'foo-bar' => $myService,
             ],
             'extensions' => [
@@ -84,7 +78,7 @@ class ConfigTest extends TestCase
     public function testInjectExtensionForFactory()
     {
         $dependencies = [
-            'factories' => [
+            'factories'  => [
                 'foo-bar' => TestAsset\Factory::class,
             ],
             'extensions' => [
@@ -133,9 +127,9 @@ class ConfigTest extends TestCase
 
     public function testInjectMultipleExtensionsAsDecorators()
     {
-        $myService = new TestAsset\Service();
+        $myService    = new TestAsset\Service();
         $dependencies = [
-            'services' => [
+            'services'   => [
                 'foo-bar' => $myService,
             ],
             'extensions' => [

@@ -1,11 +1,5 @@
 <?php
 
-/**
- * @see       https://github.com/laminas/laminas-pimple-config for the canonical source repository
- * @copyright https://github.com/laminas/laminas-pimple-config/blob/master/COPYRIGHT.md
- * @license   https://github.com/laminas/laminas-pimple-config/blob/master/LICENSE.md New BSD License
- */
-
 declare(strict_types=1);
 
 namespace Laminas\Pimple\Config;
@@ -19,9 +13,11 @@ use function is_array;
 use function is_callable;
 use function is_int;
 use function is_string;
+use function sprintf;
 
 class Config implements ConfigInterface
 {
+    /** @var array */
     private $config;
 
     public function __construct(array $config)
@@ -29,12 +25,13 @@ class Config implements ConfigInterface
         $this->config = $config;
     }
 
-    public function configureContainer(Container $container) : void
+    public function configureContainer(Container $container): void
     {
         $container['config'] = $this->config;
 
         $dependencies = [];
-        if (isset($this->config['dependencies'])
+        if (
+            isset($this->config['dependencies'])
             && is_array($this->config['dependencies'])
         ) {
             $dependencies = $this->config['dependencies'];
@@ -50,9 +47,10 @@ class Config implements ConfigInterface
         $this->injectExtensions($container, $dependencies);
     }
 
-    private function injectServices(Container $container, array $dependencies) : void
+    private function injectServices(Container $container, array $dependencies): void
     {
-        if (empty($dependencies['services'])
+        if (
+            empty($dependencies['services'])
             || ! is_array($dependencies['services'])
         ) {
             return;
@@ -65,9 +63,10 @@ class Config implements ConfigInterface
         }
     }
 
-    private function injectFactories(Container $container, array $dependencies) : void
+    private function injectFactories(Container $container, array $dependencies): void
     {
-        if (empty($dependencies['factories'])
+        if (
+            empty($dependencies['factories'])
             || ! is_array($dependencies['factories'])
         ) {
             return;
@@ -101,9 +100,10 @@ class Config implements ConfigInterface
         }
     }
 
-    private function injectInvokables(Container $container, array $dependencies) : void
+    private function injectInvokables(Container $container, array $dependencies): void
     {
-        if (empty($dependencies['invokables'])
+        if (
+            empty($dependencies['invokables'])
             || ! is_array($dependencies['invokables'])
         ) {
             return;
@@ -138,9 +138,10 @@ class Config implements ConfigInterface
         }
     }
 
-    private function injectAliases(Container $container, array $dependencies) : void
+    private function injectAliases(Container $container, array $dependencies): void
     {
-        if (empty($dependencies['aliases'])
+        if (
+            empty($dependencies['aliases'])
             || ! is_array($dependencies['aliases'])
         ) {
             return;
@@ -151,9 +152,10 @@ class Config implements ConfigInterface
         }
     }
 
-    private function injectExtensions(Container $container, array $dependencies) : void
+    private function injectExtensions(Container $container, array $dependencies): void
     {
-        if (empty($dependencies['extensions'])
+        if (
+            empty($dependencies['extensions'])
             || ! is_array($dependencies['extensions'])
         ) {
             return;
@@ -218,7 +220,7 @@ class Config implements ConfigInterface
             : $container->factory($callback);
     }
 
-    private function isShared(array $dependencies, string $name)
+    private function isShared(array $dependencies, string $name): bool
     {
         return ($dependencies['shared_by_default'] === true && ! isset($dependencies['shared'][$name]))
             || (isset($dependencies['shared'][$name]) && $dependencies['shared'][$name] === true);
