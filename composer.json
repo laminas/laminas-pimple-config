@@ -24,7 +24,6 @@
     },
     "require": {
         "php": "^7.3 || ~8.0.0",
-        "laminas/laminas-zendframework-bridge": "^1.0",
         "pimple/pimple": "^3.2.2"
     },
     "require-dev": {
@@ -52,7 +51,7 @@
         "test": "phpunit --colors=always",
         "test-coverage": "phpunit --colors=always --coverage-clover clover.xml"
     },
-    "replace": {
-        "zendframework/zend-pimple-config": "^1.1.1"
+    "conflict": {
+        "zendframework/zend-pimple-config": "*"
     }
 }
