@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<files psalm-version="4.24.0@06dd975cb55d36af80f242561738f16c5f58264f">
+  <file src="src/Config.php">
+    <InvalidFunctionCall occurrences="1">
+      <code>$factory($service, new PsrContainer($c), $name)</code>
+    </InvalidFunctionCall>
+    <MissingClosureParamType occurrences="1">
+      <code>$service</code>
+    </MissingClosureParamType>
+    <MissingClosureReturnType occurrences="7">
+      <code>function ($service, Container $c) use ($extension, $name) {</code>
+      <code>function () use ($container, $dependencies, $alias, $target) {</code>
+      <code>function () use ($container, $object, $name) {</code>
+      <code>function () use ($instance) {</code>
+      <code>function () use ($object) {</code>
+      <code>function (Container $c) use ($callback, $name, $delegators) {</code>
+      <code>function (Container $c) use ($service) {</code>
+    </MissingClosureReturnType>
+    <MissingReturnType occurrences="3">
+      <code>injectDelegator</code>
+      <code>setAlias</code>
+      <code>setService</code>
+    </MissingReturnType>
+    <MixedArgument occurrences="8">
+      <code>$delegatorClass</code>
+      <code>$dependencies['delegators'][$name]</code>
+      <code>$dependencies['delegators'][$object]</code>
+      <code>$object</code>
+      <code>$object</code>
+      <code>$object</code>
+      <code>$object</code>
+      <code>$target</code>
+    </MixedArgument>
+    <MixedArgumentTypeCoercion occurrences="5">
+      <code>$alias</code>
+      <code>$name</code>
+      <code>$name</code>
+      <code>$name</code>
+      <code>$name</code>
+    </MixedArgumentTypeCoercion>
+    <MixedArrayOffset occurrences="1">
+      <code>$dependencies['delegators'][$object]</code>
+    </MixedArrayOffset>
+    <MixedAssignment occurrences="8">
+      <code>$extension</code>
+      <code>$extensions</code>
+      <code>$instance</code>
+      <code>$instance</code>
+      <code>$object</code>
+      <code>$object</code>
+      <code>$service</code>
+      <code>$target</code>
+    </MixedAssignment>
+    <MixedClone occurrences="1">
+      <code>clone $instance</code>
+    </MixedClone>
+    <MixedMethodCall occurrences="4">
+      <code>new $delegatorClass()</code>
+      <code>new $extension()</code>
+      <code>new $object()</code>
+      <code>new $object()</code>
+    </MixedMethodCall>
+    <UnusedClosureParam occurrences="1">
+      <code>$c</code>
+    </UnusedClosureParam>
+  </file>
+  <file src="test/ConfigTest.php">
+    <MissingReturnType occurrences="6">
+      <code>testInjectConfiguration</code>
+      <code>testInjectExtensionForFactory</code>
+      <code>testInjectExtensionForInvokable</code>
+      <code>testInjectExtensionForService</code>
+      <code>testInjectMultipleExtensions</code>
+      <code>testInjectMultipleExtensionsAsDecorators</code>
+    </MissingReturnType>
+  </file>
+  <file src="test/ContainerFactoryTest.php">
+    <MissingReturnType occurrences="2">
+      <code>testContainerIsConfigured</code>
+      <code>testFactoryCreatesPsr11Container</code>
+    </MissingReturnType>
+  </file>
+  <file src="test/TestAsset/Extension1Factory.php">
+    <MixedMethodCall occurrences="1">
+      <code>inject</code>
+    </MixedMethodCall>
+  </file>
+</files>
