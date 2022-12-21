@@ -29,7 +29,10 @@ use function sprintf;
  */
 class Config implements ConfigInterface
 {
-    /** @var array{dependencies?: DependenciesConfig, ...} */
+    /**
+     * @var array
+     * @psalm-var array{dependencies?: DependenciesConfig, ...}
+     */
     private $config;
 
     /** @psalm-param array{dependencies?: DependenciesConfig, ...} $config */
