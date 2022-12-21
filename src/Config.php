@@ -15,11 +15,27 @@ use function is_int;
 use function is_string;
 use function sprintf;
 
+/**
+ * @psalm-type DependenciesConfig = array{
+ *     shared_by_default?: bool,
+ *     services?: array<string, mixed>,
+ *     factories?: array<string, callable(PsrContainer, string): mixed|class-string>,
+ *     delegators?: array<string, array<class-string>>,
+ *     invokables?: array<string, class-string>,
+ *     aliases?: array<string, string>,
+ *     extensions?: array<string, array<class-string>>,
+ *     ...
+ * }
+ */
 class Config implements ConfigInterface
 {
-    /** @var array */
+    /**
+     * @var array
+     * @psalm-var array{dependencies?: DependenciesConfig, ...}
+     */
     private $config;
 
+    /** @psalm-param array{dependencies?: DependenciesConfig, ...} $config */
     public function __construct(array $config)
     {
         $this->config = $config;
@@ -29,6 +45,7 @@ class Config implements ConfigInterface
     {
         $container['config'] = $this->config;
 
+        /** @var DependenciesConfig $dependencies */
         $dependencies = [];
         if (
             isset($this->config['dependencies'])
@@ -47,6 +64,7 @@ class Config implements ConfigInterface
         $this->injectExtensions($container, $dependencies);
     }
 
+    /** @param DependenciesConfig $dependencies */
     private function injectServices(Container $container, array $dependencies): void
     {
         if (
@@ -63,6 +81,7 @@ class Config implements ConfigInterface
         }
     }
 
+    /** @param DependenciesConfig $dependencies */
     private function injectFactories(Container $container, array $dependencies): void
     {
         if (
@@ -100,6 +119,7 @@ class Config implements ConfigInterface
         }
     }
 
+    /** @param DependenciesConfig $dependencies */
     private function injectInvokables(Container $container, array $dependencies): void
     {
         if (
@@ -138,6 +158,7 @@ class Config implements ConfigInterface
         }
     }
 
+    /** @param DependenciesConfig $dependencies */
     private function injectAliases(Container $container, array $dependencies): void
     {
         if (
@@ -152,6 +173,7 @@ class Config implements ConfigInterface
         }
     }
 
+    /** @param DependenciesConfig $dependencies */
     private function injectExtensions(Container $container, array $dependencies): void
     {
         if (
