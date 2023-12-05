@@ -10,6 +10,7 @@
         "psr-11"
     ],
     "homepage": "https://laminas.dev",
+    "abandoned": true,
     "support": {
         "issues": "https://github.com/laminas/laminas-pimple-config/issues",
         "source": "https://github.com/laminas/laminas-pimple-config",

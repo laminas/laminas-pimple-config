@@ -1,6 +1,10 @@
 # laminas-pimple-config
 
-[![Build Status](https://github.com/laminas/laminas-pimple-config/workflows/Continuous%20Integration/badge.svg)](https://github.com/laminas/laminas-pimple-config/actions?query=workflow%3A"Continuous+Integration")
+> ## Abandoned
+>
+> This package is **abandoned** and will receive no further development!
+>
+> See the Technical Steering Committee [meeting minutes](https://github.com/laminas/technical-steering-committee/blob/main/meetings/minutes/2023-12-04-TSC-Minutes.md)
 
 > ## 🇷🇺 Русским гражданам
 >
@@ -98,7 +102,7 @@ The `dependencies` sub associative array can contain the following keys:
 > If you are using [Aura.Di](https://github.com/laminas/laminas-auradi-config)
 > or [laminas-servicemanager](https://docs.laminas.dev/laminas-servicemanager/),
 > you can use [`delegators`](https://docs.laminas.dev/laminas-servicemanager/delegators/)
-> instead. It is recommended to use `delegators` if you'd like to keep the 
+> instead. It is recommended to use `delegators` if you'd like to keep the
 > highest compatibility and might consider changing the container library you
 > use in the future.
 
